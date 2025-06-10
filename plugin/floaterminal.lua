@@ -17,7 +17,12 @@ local function create_floating_window(opts)
     local row = math.floor((vim.o.lines - height) / 2)
 
     -- Create a buffer
-    local buf = vim.api.nvim_create_buf(false, true)
+    local buf = nil
+    if vim.api.nvim_buf_is_valid(opts.buf) then
+        buf = opts.buf
+    else
+        buf = vim.api.nvim_create_buf(false, true)
+    end
 
     -- Define window configuration
     local win_config = {
@@ -36,9 +41,18 @@ local function create_floating_window(opts)
     return { buf = buf, win = win }
 end
 
-vim.api.nvim_create_user_command("Floaterminal", function()
-    -- if not vim.api.nvim_win_is_valid()
-    state.floating = create_floating_window()
-end, {})
+local toggle_terminal = function()
+    if not vim.api.nvim_win_is_valid(state.floating.win) then
+        state.floating = create_floating_window { buf = state.floating.buf }
+        if vim.bo[state.floating.buf].buftype ~= "terminal" then
+            vim.cmd.terminal()
+        end
+    else
+        vim.api.nvim_win_hide(state.floating.win)
+    end
+end
+
+vim.api.nvim_create_user_command("Floaterminal", toggle_terminal, {})
+vim.keymap.set({'n', 't'}, "<leader>tt", toggle_terminal)
 
 return M
