@@ -25,10 +25,11 @@ return {
 
         -- require('telescope').load_extension('fzf')
 
-        vim.keymap.set("n", "<leader>fh", require('telescope.builtin').help_tags) -- (f)ind (h)elp_tags
-        vim.keymap.set("n", "<leader>ff", require('telescope.builtin').find_files)-- (f)ind all (f)iles
-        vim.keymap.set("n", "<leader>fg", require('telescope.builtin').git_files) -- (f)ind (g)it files
-        vim.keymap.set("n", "<leader>cc", require('telescope.builtin').colorscheme) -- (c)hange (c)olorscheme
+        vim.keymap.set("n", "<leader>fh", require('telescope.builtin').help_tags)           -- (f)ind (h)elp_tags
+        vim.keymap.set("n", "<leader>ff", require('telescope.builtin').find_files)          -- (f)ind all (f)iles
+        vim.keymap.set("n", "<leader>fg", require('telescope.builtin').git_files)           -- (f)ind (g)it files
+        vim.keymap.set("n", "<leader>fb", require('telescope.builtin').buffers)             -- (f)ind (b)uffer
+        vim.keymap.set("n", "<leader>cc", require('telescope.builtin').colorscheme)         -- (c)hange (c)olorscheme
         vim.keymap.set("n", "<leader>enc", function() -- (e)dit (n)eovim (c)onfig
             require('telescope.builtin').find_files {
                 cwd = vim.fn.stdpath("config")
